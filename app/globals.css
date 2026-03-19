@@ -1,0 +1,193 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* shadcn/ui color tokens (minimal set). */
+:root {
+  --background: 220 30% 98%;
+  --foreground: 222 47% 11%;
+
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 11%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 47% 11%;
+
+  --primary: 240 67% 56%;
+  --primary-foreground: 210 40% 98%;
+
+  --secondary: 220 20% 94%;
+  --secondary-foreground: 222 47% 11%;
+
+  --muted: 220 20% 95%;
+  --muted-foreground: 223 15% 42%;
+
+  --accent: 235 100% 97%;
+  --accent-foreground: 240 50% 20%;
+
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+
+  --border: 220 24% 88%;
+  --input: 220 24% 88%;
+  --ring: 240 67% 56%;
+
+  --radius: 0.85rem;
+}
+
+.dark {
+  --background: 224 32% 8%;
+  --foreground: 210 40% 98%;
+
+  --card: 224 28% 11%;
+  --card-foreground: 210 40% 98%;
+
+  --popover: 224 28% 11%;
+  --popover-foreground: 210 40% 98%;
+
+  --primary: 239 84% 67%;
+  --primary-foreground: 222 47% 11%;
+
+  --secondary: 224 24% 16%;
+  --secondary-foreground: 210 40% 98%;
+
+  --muted: 224 22% 18%;
+  --muted-foreground: 215 16% 65%;
+
+  --accent: 239 40% 20%;
+  --accent-foreground: 210 40% 98%;
+
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 210 40% 98%;
+
+  --border: 224 20% 18%;
+  --input: 224 20% 18%;
+  --ring: 239 84% 67%;
+}
+
+body {
+  min-height: 100vh;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  background-image:
+    radial-gradient(circle at 10% -20%, rgba(99, 102, 241, 0.14) 0%, transparent 50%),
+    radial-gradient(circle at 100% 0%, rgba(14, 165, 233, 0.12) 0%, transparent 42%);
+}
+
+.dark body {
+  background-image:
+    radial-gradient(circle at 15% -10%, rgba(99, 102, 241, 0.22) 0%, transparent 45%),
+    radial-gradient(circle at 95% 5%, rgba(56, 189, 248, 0.12) 0%, transparent 40%),
+    radial-gradient(ellipse 80% 50% at 50% 100%, rgba(99, 102, 241, 0.08) 0%, transparent 55%);
+}
+
+.bg-background {
+  background-color: hsl(var(--background));
+}
+
+.text-foreground {
+  color: hsl(var(--foreground));
+}
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  h1,
+  h2,
+  h3 {
+    letter-spacing: -0.025em;
+  }
+
+  ::selection {
+    background-color: hsl(var(--primary) / 0.22);
+    color: hsl(var(--foreground));
+  }
+}
+
+@layer components {
+  .surface {
+    border-radius: var(--radius);
+    border: 1px solid hsl(var(--border) / 0.8);
+    background-color: hsl(var(--card) / 0.9);
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.06);
+    backdrop-filter: blur(10px);
+  }
+
+  .metric-card {
+    border-radius: var(--radius);
+    border: 1px solid hsl(var(--border) / 0.8);
+    background-color: hsl(var(--card) / 0.9);
+    box-shadow:
+      0 0 0 1px rgb(0 0 0 / 0.03),
+      0 1px 3px 0 rgb(0 0 0 / 0.06);
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+    padding: 1rem;
+    transition:
+      transform 300ms ease-out,
+      box-shadow 300ms ease-out;
+  }
+
+  .metric-card:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 0 0 1px hsl(var(--primary) / 0.12),
+      0 16px 48px -16px hsl(var(--primary) / 0.2),
+      0 1px 3px 0 rgb(0 0 0 / 0.06);
+  }
+
+  .dark .metric-card {
+    box-shadow:
+      0 0 0 1px rgb(255 255 255 / 0.06),
+      0 1px 3px 0 rgb(0 0 0 / 0.35);
+  }
+
+  .dark .metric-card:hover {
+    box-shadow:
+      0 0 0 1px hsl(var(--primary) / 0.2),
+      0 16px 48px -16px hsl(var(--primary) / 0.28),
+      0 1px 3px 0 rgb(0 0 0 / 0.35);
+  }
+
+  .metric-card > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .metric-card::after {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    inset: -40% -20%;
+    background: linear-gradient(
+      105deg,
+      transparent 35%,
+      hsl(var(--primary) / 0.07) 50%,
+      transparent 65%
+    );
+    transform: translateX(-60%);
+    animation: metric-shine 5.5s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .metric-card::after {
+      animation: none;
+      opacity: 0;
+    }
+  }
+}
+
+@keyframes metric-shine {
+  0%,
+  100% {
+    transform: translateX(-70%);
+  }
+  50% {
+    transform: translateX(70%);
+  }
+}
+
+
